@@ -1,0 +1,46 @@
+# Overview of MCMC Algorithms {#sec-ch1-comp}
+
+The full Bayesian model is completed by the specification of prior distributions for the parameters $\alpha$, $\beta$, $\boldsymbol{\rho}$, and $\boldsymbol{w}$, where $\alpha$ and $\beta$ are parameters of the gamma marginals, and $\boldsymbol{\rho}$ and $\boldsymbol{w}$ are the dependence and weight parameters, respectively. For the copula-based Gamma MTD model, the priors are specified as $Gamma(\alpha | u_{\alpha}, v_{\alpha})$, $Gamma(\beta | u_{\beta}, v_{\beta})$, and $Unif(\rho_l |-1, 1)$. For the cdf-based weights, the prior is $CDP(\boldsymbol{w} | \alpha_0, a_0, b_0)$.
+
+The parameters $\alpha$, $\beta$, and $\boldsymbol{\rho}$ are updated using a slice sampler [@neal2003slice]. Following the definition in Equation \ref{eq:cond_distribution_copula}, denote $f_l (x_t | x_{t-l})$ as $f_l (x_t | x_{t-l}) = c_l (x_t, x_{t-l}) f_X(x_t)$, where $f_l$ is the transition kernel, $c_l$ is the copula density, and $f_X$ is the stationary marginal density. The posterior full conditional distributions for the marginal parameters $\alpha$ and $\beta$ are proportional to $Gamma(\alpha | u_{\alpha}, v_{\alpha}) \prod_{t=L+1}^n f_l (x_t | x_{t-l})$ and $Gamma(\beta | u_{\beta}, v_{\beta})$ $\prod_{t=L+1}^n f_l (x_t | x_{t-l})$, respectively. The posterior full conditional distribution for each of the dependence parameters $\boldsymbol{\rho}$ is proportional to $Unif(\rho_l |-1, 1) \prod_{t:z_t = l} c_l (x_t, x_{t-l})$. 
+
+For the latent variables ${\{z_t\}}_{t=L+1}^n$, the posterior full conditional for each $z_t$ is a discrete distribution on $\{1, ..., L\}$, where the probability of $z_t = l$, denoted by 
+$q_l$, is proportional to $w_l c_l (x_t, x_{t-l})$, for $l = 1,..., L$. The posterior full conditional distribution for weight parameters $\boldsymbol{w}$, under the cdf-based prior, is $Dirichlet (\boldsymbol{\alpha})$, where $\boldsymbol{\alpha} = (\alpha_0 a_1 + M_1, ..., \alpha_0 a_L + M_L)$.  
+
+The MCMC algorithm, adapted from Zheng's source code for the MTD model [@zheng2022construction], is written in $\texttt{R}$, with certain functions written in $\texttt{C++}$. Algorithm \ref{alg:mcmc} requires data, mtd order, hyperparameters of the priors for $\alpha$, $\beta$, $\boldsymbol{w}$, and starting values for $\alpha$, $\beta$, $\boldsymbol{\rho}$. It also requires tuning parameters for the slice sampler, including step size and upper bounds for $\alpha$ and $\beta$, along with the general MCMC settings such as number of iterations, burn-in period, and thinning interval. The algorithm outputs posterior samples of $\alpha$, $\beta$, $\boldsymbol{\rho}$ and $\boldsymbol{w}$. Asterisk (*) denotes modification of the algorithm.
+
+```{=latex}
+\begin{algorithm}
+\caption{MCMC Algorithm for Parameter Estimation for Gamma MTD Models}
+\label{alg:mcmc}
+\begin{algorithmic}
+
+\Require data $\boldsymbol{y}$, mtd order $L$, priors for $\alpha$, $\beta$, $\boldsymbol{w}$, starting for $\alpha$, $\beta$, $\boldsymbol{\rho}$, tuning for slice sampler, mcmc settings
+
+\Ensure 
+\State $\alpha$: a vector of marginal parameters with dimension $\texttt{nsample} =(\texttt{niter} - \texttt{nburn}) / \texttt{nthin}$
+
+\State $\beta$: a vector of marginal parameters with dimension $\texttt{nsample}$
+
+\State $\boldsymbol{\rho}$: a matrix of dependence parameters with dimension $L \times \texttt{nsample}$
+
+\State $\boldsymbol{w}$: a matrix weight parameters with dimension $L \times \texttt{nsample}$
+
+\State Initialize $\alpha$, $\beta$, $\boldsymbol{\rho}$, ${\{z_t\}}_{t=L+1}^n$, $\boldsymbol{w}$
+\For{each MCMC iteration $\texttt{iter} = 1,..., \texttt{niter}$}
+    \State update $\alpha$ \Comment{Sample $\alpha$ using a slice sampler *}
+    \State update $\beta$ \Comment{Sample $\beta$ using a slice sampler *}
+    \State update $\boldsymbol{\rho}$ \Comment{Sample $\rho_l, l = 1,...,L$ using a slice sampler  *}
+    \State update ${\{z_t\}}_{t=L+1}^n$ \Comment{Sample $z_t, t = L+1,..., n$ with probability $q_l$ *}
+    \State update $\boldsymbol{w}$ \Comment{Sample $w_l, l = 1,...,L$ from $Dirichlet(\cdot)$}
+\EndFor
+\State Discard the first 
+\texttt{nburn}
+iterations and retain every 
+\texttt{nthin} iteration 
+\end{algorithmic}
+\end{algorithm}
+```
+
+
+  

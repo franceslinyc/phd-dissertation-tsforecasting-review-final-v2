@@ -1,0 +1,95 @@
+project:
+  type: book
+
+book:
+  title: "Copula-Based Mixture Transition Distribution Models for Forecasting Skewed and Zero-Inflated Time Series: Methodology and Comparisons with Deep Learning LSTM Networks"
+  author: "Frances Lin"
+  date: "November 5, 2025"
+  output-file: LinFrances2025
+  chapters:
+    - index.qmd
+    - part: "Models for Forecasting Skewed Time Series"
+      chapters:
+        - chapter1/intro.qmd
+        - chapter1/background.qmd
+        - chapter1/proposed.qmd
+        - chapter1/computation.qmd        
+        - chapter1/simulation.qmd
+        - chapter1/prediction.qmd
+        - chapter1/discussion.qmd
+    - part: "Models for Forecasting Zero-Inflated Skewed Time Series"
+      chapters:
+        - chapter2/intro.qmd
+        - chapter2/background.qmd        
+        - chapter2/proposed.qmd
+        - chapter2/computation.qmd        
+        - chapter2/simulation.qmd
+        - chapter2/prediction.qmd
+        - chapter2/discussion.qmd
+    - part: "Copula-Based Markov MTD Models vs. Deep Learning LSTM Networks"
+      chapters:
+        - chapter3/intro.qmd
+        - chapter3/background.qmd
+        - chapter3/simulation.qmd
+        - chapter3/real.qmd
+        - chapter3/discussion.qmd
+    - part: "Conclusion"
+      chapters:
+        - conclusion.qmd
+    - part: "Bibliography"
+      chapters:
+        - references.qmd
+  appendices: 
+    - appendix/chapter2/add_dzig_pzig.qmd
+    - appendix/chapter1/add_simu.qmd
+    - appendix/chapter2/add_simu.qmd
+    - appendix/chapter1/add_pred.qmd
+    - appendix/chapter2/add_pred.qmd
+    - appendix/chapter3/add_pred.qmd
+    - appendix/chapter1/add_pkag.qmd
+    - appendix/chapter2/add_pkag.qmd
+
+thesis:    
+  department: Statistics
+  depttype: Department
+  depthead: Head
+  doctype: Dissertation
+  major: Statistics
+  advisor: Lisa Madsen
+  coadvisor: Charlotte Wickham
+  commencementyear: 2026
+  degree: Doctor of Philosophy
+  acknowledgements: I would like to thank my advisors Lisa Madsen and Charlotte Wickham. 
+  abstract: > 
+    Modeling complex patterns in sequence data is a central task across domains such as 
+    energy, insurance, and transportation. Real-world time series often exhibit skewness 
+    and zero inflation, which, if unaddressed, undermine prediction accuracy. This 
+    dissertation develops the copula-based Gamma Mixture Transition Distribution (Gamma MTD) 
+    model and its zero-inflated extension (ZIGamma MTD) to capture nonlinear dependence, 
+    skewed distributions, and semicontinuous patterns within a generalizable framework. 
+    While recent AI advances such as Recurrent Neural Networks (RNNs) and Long Short-Term 
+    Memory (LSTM) networks effectively capture nonlinear and long-range dependence, claims of 
+    LSTM superiority can be misleading with inappropriate benchmarks, and prior work has shown 
+    that MTD models perform comparably in predicting disease spread. To evaluate the relative 
+    strengths and limitations of each approach, we evaluate Gamma and ZIGamma MTD
+    models alongside LSTM networks. Results from both simulation and real-data applications 
+    show that MTD models provide higher predictive accuracy and robustness, though at 
+    greater computational cost and requiring more careful design, whereas LSTMs deliver 
+    faster predictions with lower accuracy. These findings underscore the complementary strengths
+    of classical probabilistic models and AI-driven neural architectures, offering practical 
+    guidance for modeling skewed and zero-inflated time series.
+       
+bibliography: references.bib
+
+format:
+  html: 
+    toc: true
+    toc-depth: 3
+    number-sections: true
+  beav-pdf: 
+    toc: true
+    toc-depth: 3
+    number-sections: true 
+    keep-tex: true
+    include-in-header: preamble.tex
+

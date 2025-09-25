@@ -1,0 +1,9 @@
+# Discussion {#sec-ch3-discussion}
+
+In this work, we review LSTMs and evaluate their performance relative to our proposed MTD models. Through simulation studies, we compare both the Gamma MTD and ZIGamma MTD models against the LSTMs. For gamma time series, Gamma MTD and LSTM perform comparably. In contrast, for zero-inflated gamma time series, ZIGamma MTD outperforms the LSTM, which is expected given the challenges of modeling zero-inflated data, and LSTMs are less specialized for handling this type of data.
+
+In real-world data applications, we focus on comparing the Gamma MTD with LSTMs to assess their practical performance. In this case, Gamma MTD consistently outperforms the LSTM across all evaluation metrics for all three datasets, including wind speed measurements (m/s) at heights of 50 m, 10 m, and 2 m above ground level.
+
+Probabilistic models like MTDs offer greater robustness and interpretability due to their probabilistic nature, allowing uncertainty quantification and insights into temporal dependencies. However, MTD models such as Gamma MTD and ZIGamma MTD require careful design and specification. In contrast, deep learning networks such as LSTMs are more general-purpose and provide faster computation, though their black-box structure limits interpretability. Therefore, MTD is better suited for explainable and robust modeling, while LSTMs are advantageous for large-scale or computationally demanding tasks. 
+
+Given the growing preference for transformer architectures in sequence modeling, future research should extend these comparisons to include transformer-based models. It is equally important to ensure that these comparisons are grounded in appropriate benchmarks and evaluated with suitable metrics, ensuring that conclusions regarding model performance are fair, valid, and contextually appropriate. 

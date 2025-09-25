@@ -1,0 +1,40 @@
+# Introduction {#sec-intro}
+
+## Motivation and Objective 
+
+Modeling complex patterns in sequence data is a central challenge across domains such as energy, insurance, and transportation. However, real-world time series often exhibit characteristics such as skewness and zero inflation. If left unaddressed, these features can undermine modeling and prediction. For instance, wind speeds are typically skewed, while medical expenditures, insurance claims, and transportation safety measures may include an excess of zeros. These features motivate the development of flexible models capable of capturing both continuous skewed behavior and semicontinuous, zero-inflated structures. @fig-windspeed and @fig-simu-zigamma illustrate typical skewed and zero-inflated time series that motivate these modeling choices. 
+
+Recent advances in artificial intelligence (AI) have introduced powerful deep learning architectures, particularly Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTM) networks. These models effectively capture nonlinear and long-range dependence from data, offering fast predictions without explicit probabilistic assumptions. However, claims of LSTM superiority can be misleading when compared against inappropriate benchmarks such as ARIMA models, and a prior work has found comparable predictive performance between probabilistic Mixture Transition Distribution (MTD) model and deep learning LSTM network for disease spread. These considerations motivate a comparison of deep learning approaches with probabilistic models that are flexible enough to handle nonlinear, non-Gaussian, and zero-inflated dynamics, providing a more realistic benchmark than traditional methods.
+
+At the same time, classical statistical approaches remain indispensable, especially when robustness, interpretability, and uncertainty quantification are priorities. The Gamma Mixture Transition Distribution (Gamma MTD) model and its zero-inflated extension (ZIGamma MTD) provide flexible, interpretable frameworks for skewed and zero-inflated time series. Using a copula-based formulation, these models extend the traditional MTD framework, enabling accurate modeling of continuous and semicontinuous data commonly observed in real-world applications.
+
+This dissertation develops the Gamma MTD and ZIGamma MTD models, evaluates their predictive performance and robustness, and compares them with modern deep learning approaches such as LSTMs. By integrating insights from both probabilistic and AI-driven frameworks, this work highlights their complementary strengths, limitations, and practical applications.
+
+## Data Challenges 
+
+To account for skewness and zero inflation in real-world time series, we develop the copula-based Gamma MTD model along with its zero-inflated extension, ZIGamma MTD, offering a robust, flexible, and interpretable framework for modeling such data.
+
+Gamma MTD.
+
+ZIGamma MTD.
+
+![Time series plot of observed wind speeds (m/s) at heights of (a) 50 m, (b) 10 m, and (c) 2 m above ground level at the Limon Wind Energy Center, Colorado, for the year 2024. Data sourced from MERRA-2 via the NASA GES DISC Earthdata API.](images/chapter1/windspeed.png){#fig-windspeed} 
+
+![Time series plot of observed values for varying zero-inflated probability (a) $P = 0.1$, (b) $P = 0.5$ , and (c) $P = 0.7$. Data generated from a ZIGamma MTD model with mean, scale, and threshold parameters $\mu = 7$, $\beta = 1$, and $\epsilon = 0.1$.](images/chapter1/zigamma.png){#fig-simu-zigamma} 
+
+## Modeling Approaches
+
+To ensure a fair and balanced evaluation, we systematically examine two complementary modeling approaches: probabilistic MTD models and deep learning methods, such as LSTM networks.
+
+MTD models represent each conditional distribution as a mixture of $l$ transition kernels, weighting past lags probabilistically to capture complex temporal dependence. The models are particularly effective for non-Gaussian, skewed, and zero-inflated data. The copula-based formulation further enhances modeling of continuous and semicontinuous patterns.
+
+Recurrent Neural Network (RNN) architectures, including LSTMs, model temporal dependence by propagating recurrent units over time. These networks learn internal states directly from data using backpropagation through time (BPTT) without relying on explicit probabilistic assumptions. LSTMs capture long-range nonlinear dependence efficiently, making them well-suited for fast prediction on large-scale datasets. 
+
+Although both MTD models and LSTMs describe evolving dynamics, they differ fundamentally. MTD models employ probabilistic transition mechanisms, whereas LSTMs rely on deterministic, learned transformations of hidden and cell states. This distinction has practical implications: MTD models tend to provide higher predictive accuracy, improved robustness, and greater interpretability, but at greater computational cost and more challenging model design. LSTMs provide faster predictions with lower accuracy and are easier to deploy, though less interpretable. 
+
+By combining insights from both classical and AI-driven frameworks, this dissertation aims to provide practical guidance for modeling complex, skewed, and zero-inflated time series data.
+
+## Outline of the Dissertation Chapters
+
+The rest of the dissertation is organized as follows. In Part I, we propose the copula-based Gamma MTD model, detailing its design, estimation, and prediction. While the focus is on the Gamma time series, the framework is readily generalizable to other marginal distributions, such as the lognormal. In Part II, we extend the Gamma MTD model to accommodate zero-inflated time series, resulting in the ZIGamma MTD model. This extension again demonstrates the framework’s generalizability to alternative marginal distributions beyond the Gamma. In both models, we use a Gaussian copula to capture dependence, although alternative copula families, such as Clayton and Gumbel, can also be adopted to better model tail dependence and asymmetry. In Part III, we compare the MTD models with deep learning approaches, specifically the Long Short-Term Memory (LSTM) networks, evaluating predictive performance and robustness through simulation studies and real-world applications. 
+
